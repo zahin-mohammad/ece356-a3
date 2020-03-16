@@ -1,0 +1,83 @@
+DELIMITER //
+ 
+CREATE PROCEDURE tryEnrollment(
+    IN courseID CHAR(8),
+    IN section1 int,
+    IN section2 int,
+    IN termCode decimal(4),
+    IN quantity int,
+    OUT errorCode int
+)
+BEGIN
+    -- if there are any errors, rollback the transaction.
+    -- if there are no errors, set the error code to 0 and commit the transaction.
+    
+    set errorCode = 0;
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND 
+    BEGIN
+        set errorCode = -1;
+        ROLLBACK;
+    END;
+
+    DECLARE section1EnrollmentError CONDITION FOR '2000';
+    DECLARE CONTINUE HANDLER FOR section1EnrollmentError
+    BEGIN
+        set errorCode = -2;
+        ROLLBACK;
+    END;
+
+    DECLARE section2CapacityError CONDITION FOR '3000';
+    DECLARE CONTINUE HANDLER FOR section2CapacityError
+    BEGIN
+        set errorCode = -2;
+        ROLLBACK;
+    END;
+    
+    START TRANSACTION;
+        -- if (courseID,section1,termCode) or (courseID,section2,termCode) do not exist in Offering, 
+        -- or quantity is 0 or less or section1 = section2, set the error code to -1.
+        SELECT * 
+        FROM Offering 
+        WHERE courseID = Offering.courseID 
+        AND (section1 = Offering.section OR section2 = Offering.section) 
+        AND termCode = Offering.termCode;
+    
+        -- attempt to reduce the enrollment in section1 by “quantity”; 
+        UPDATE Offering 
+        SET enrollment =  enrollment - quantity 
+        WHERE courseID = Offering.courseID 
+        AND termCode = Offering.termCode 
+        AND section1 = Offering.section;
+        
+        -- if the result is a negative enrollment, set the error code to -2
+        IF (
+            SELECT enrollment 
+            FROM Offering 
+            WHERE courseID = Offering.courseID 
+            AND termCode = Offering.termCode) < 0 
+            THEN SIGNAL SQLSTATE '2000'
+        END IF;
+
+        -- attempt to increase the enrollment in section2 by “quantity”; 
+        UPDATE Offering 
+        SET enrollment =  enrollment + quantity 
+        WHERE courseID = Offering.courseID 
+        AND termCode = Offering.termCode
+        AND section2 = Offering.section;
+
+    -   - if the result is that enrollment in sec-tion2 exceeds room capacity, then set the error code to -3.
+        IF (
+            SELECT capacity - enrollment
+            FROM Offering JOIN Classroom 
+            ON Offering.roomID = Classroom.roomID
+            WHERE courseID = Offering.courseID 
+            AND termCode = Offering.termCode 
+            AND section2 = Offering.section) < 0 
+            THEN SIGNAL SQLSTATE '3000'
+        END IF;
+    COMMIT;
+
+END //
+
+DELIMITER ;
