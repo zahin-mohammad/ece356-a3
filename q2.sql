@@ -14,8 +14,9 @@ BEGIN
     -- if there are no errors, set the error code to 0 and commit the transaction.
     
     set errorCode = 0;
-    
-    DECLARE EXIT HANDLER FOR NOT FOUND 
+
+    DECLARE invalidParams CONDITION FOR '1000';
+    DECLARE EXIT HANDLER FOR invalidParams 
     BEGIN
         set errorCode = -1;
         ROLLBACK;
@@ -38,17 +39,23 @@ BEGIN
     START TRANSACTION;
         -- if (courseID,section1,termCode) or (courseID,section2,termCode) do not exist in Offering, 
         -- or quantity is 0 or less or section1 = section2, set the error code to -1.
-        SELECT * 
-        FROM Offering 
-        WHERE courseID = Offering.courseID 
-        AND section1 = Offering.section 
-        AND termCode = Offering.termCode;
+        IF (
+            SELECT * 
+            FROM Offering 
+            WHERE courseID = Offering.courseID 
+            AND section1 = Offering.section 
+            AND termCode = Offering.termCode) = NULL
+            THEN SIGNAL SQLSTATE '1000'
+        END IF;
 
-        SELECT * 
-        FROM Offering 
-        WHERE courseID = Offering.courseID 
-        AND section2 = Offering.section
-        AND termCode = Offering.termCode;
+        IF (
+            SELECT * 
+            FROM Offering 
+            WHERE courseID = Offering.courseID 
+            AND section2 = Offering.section 
+            AND termCode = Offering.termCode) = NULL
+            THEN SIGNAL SQLSTATE '1000'
+        END IF;
     
         -- attempt to reduce the enrollment in section1 by “quantity”; 
         UPDATE Offering 
