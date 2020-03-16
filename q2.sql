@@ -1,6 +1,5 @@
 DELIMITER //
 
-use uni;
 DROP PROCEDURE IF EXISTS tryEnrollment;
 CREATE PROCEDURE tryEnrollment(
     IN courseID CHAR(8),
