@@ -1,5 +1,6 @@
 DELIMITER //
- 
+
+DROP PROCEDURE IF EXISTS tryEnrollment;
 CREATE PROCEDURE tryEnrollment(
     IN courseID CHAR(8),
     IN section1 int,
@@ -40,7 +41,13 @@ BEGIN
         SELECT * 
         FROM Offering 
         WHERE courseID = Offering.courseID 
-        AND (section1 = Offering.section OR section2 = Offering.section) 
+        AND section1 = Offering.section 
+        AND termCode = Offering.termCode;
+
+        SELECT * 
+        FROM Offering 
+        WHERE courseID = Offering.courseID 
+        AND section2 = Offering.section
         AND termCode = Offering.termCode;
     
         -- attempt to reduce the enrollment in section1 by “quantity”; 
