@@ -20,21 +20,21 @@ BEGIN
     BEGIN
         set errorCode = -1;
         ROLLBACK;
-    END;
+    END
 
     DECLARE section1EnrollmentError CONDITION FOR '2000';
     DECLARE CONTINUE HANDLER FOR section1EnrollmentError
     BEGIN
         set errorCode = -2;
         ROLLBACK;
-    END;
+    END
 
     DECLARE section2CapacityError CONDITION FOR '3000';
     DECLARE CONTINUE HANDLER FOR section2CapacityError
     BEGIN
         set errorCode = -2;
         ROLLBACK;
-    END;
+    END
     
     START TRANSACTION;
         -- if (courseID,section1,termCode) or (courseID,section2,termCode) do not exist in Offering, 
