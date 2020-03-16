@@ -1,0 +1,1 @@
+select Enrollment from Offering where courseID='ECE356';
