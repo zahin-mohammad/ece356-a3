@@ -15,8 +15,8 @@ BEGIN
     
     set errorCode = 0;
 
-    DECLARE invalidParams CONDITION FOR '1000';
-    DECLARE EXIT HANDLER FOR invalidParams 
+    DECLARE invalid_params CONDITION FOR '1000';
+    DECLARE EXIT HANDLER FOR invalid_params 
     BEGIN
         set errorCode = -1;
         ROLLBACK;
