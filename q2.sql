@@ -13,9 +13,11 @@ BEGIN
     -- if there are any errors, rollback the transaction.
     -- if there are no errors, set the error code to 0 and commit the transaction.
     
-    set errorCode = 0;
 
     DECLARE invalid_params CONDITION FOR '1000';
+    DECLARE section2CapacityError CONDITION FOR '3000';
+    set errorCode = 0;
+    
     DECLARE EXIT HANDLER FOR invalid_params 
     BEGIN
         set errorCode = -1;
@@ -29,7 +31,6 @@ BEGIN
         ROLLBACK;
     END;
 
-    DECLARE section2CapacityError CONDITION FOR '3000';
     DECLARE EXIT HANDLER FOR section2CapacityError
     BEGIN
         set errorCode = -2;
