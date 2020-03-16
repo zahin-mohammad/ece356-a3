@@ -1,7 +1,8 @@
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS tryEnrollment;
-CREATE PROCEDURE tryEnrollment(
+use uni;
+DROP PROCEDURE IF EXISTS uni.tryEnrollment;
+CREATE PROCEDURE uni.tryEnrollment(
     IN courseID CHAR(8),
     IN section1 int,
     IN section2 int,
