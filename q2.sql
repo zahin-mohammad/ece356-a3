@@ -15,8 +15,8 @@ BEGIN
     
 
     DECLARE invalid_params CONDITION FOR '1000';
+    DECLARE section1EnrollmentError CONDITION FOR '2000';
     DECLARE section2CapacityError CONDITION FOR '3000';
-    set errorCode = 0;
     
     DECLARE EXIT HANDLER FOR invalid_params 
     BEGIN
@@ -24,7 +24,6 @@ BEGIN
         ROLLBACK;
     END;
 
-    DECLARE section1EnrollmentError CONDITION FOR '2000';
     DECLARE EXIT HANDLER FOR section1EnrollmentError
     BEGIN
         set errorCode = -2;
@@ -36,7 +35,9 @@ BEGIN
         set errorCode = -2;
         ROLLBACK;
     END;
-    
+
+    set errorCode = 0;
+
     START TRANSACTION;
         -- if (courseID,section1,termCode) or (courseID,section2,termCode) do not exist in Offering, 
         -- or quantity is 0 or less or section1 = section2, set the error code to -1.
