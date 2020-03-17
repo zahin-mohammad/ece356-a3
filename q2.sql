@@ -94,6 +94,13 @@ proc_label:BEGIN
                     LEAVE proc_label; 
         END IF;
 
+        SELECT * FROM  Offering
+        JOIN Classroom
+        ON Classroom.roomID = Offering.roomID
+        WHERE courseID = Offering.courseID 
+        AND termCode = Offering.termCode 
+        AND section2 = Offering.section;
+
         -- attempt to increase the enrollment in section2 by “quantity”; 
         UPDATE Offering 
         SET enrollment =  enrollment + quantity 
@@ -101,7 +108,7 @@ proc_label:BEGIN
         AND termCode = Offering.termCode
         AND section2 = Offering.section;
 
-                SELECT * FROM  Offering
+        SELECT * FROM  Offering
         JOIN Classroom
         ON Classroom.roomID = Offering.roomID
         WHERE courseID = Offering.courseID 
