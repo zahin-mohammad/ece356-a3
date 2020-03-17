@@ -47,7 +47,7 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND section1 = Offering.section 
             AND termCode = Offering.termCode) = NULL
-            THEN SIGNAL SQLSTATE '1000'
+            THEN SIGNAL SQLSTATE invalid_params;
         END IF;
 
         IF (
@@ -56,7 +56,7 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND section2 = Offering.section 
             AND termCode = Offering.termCode) = NULL
-            THEN SIGNAL SQLSTATE '1000'
+            THEN SIGNAL SQLSTATE invalid_params;
         END IF;
     
         -- attempt to reduce the enrollment in section1 by “quantity”; 
@@ -72,7 +72,7 @@ BEGIN
             FROM Offering 
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode) < 0 
-            THEN SIGNAL SQLSTATE '2000'
+            THEN SIGNAL SQLSTATE section1EnrollmentError;
         END IF;
 
         -- attempt to increase the enrollment in section2 by “quantity”; 
@@ -90,7 +90,7 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode 
             AND section2 = Offering.section) < 0 
-            THEN SIGNAL SQLSTATE '3000'
+            THEN SIGNAL SQLSTATE section2CapacityError;
         END IF;
     COMMIT;
 
