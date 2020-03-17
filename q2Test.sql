@@ -1,5 +1,5 @@
 use uni;
-
+set autocommit=0;
 source q2.sql;
 
 -- Should pass
@@ -28,3 +28,4 @@ COMMIT;
 -- call tryEnrollment('ECE356', 1, 2, 1191, 100, @errorCode);
 -- SELECT @errorCode;
 
+set autocommit=1;

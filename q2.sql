@@ -51,7 +51,7 @@ proc_label:BEGIN
             AND termCode = Offering.termCode) = 0
             THEN 
                     set errorCode = -1;
-                    rollback;
+                    ROLLBACK;
                     LEAVE proc_label; 
         END IF;
 
@@ -63,7 +63,7 @@ proc_label:BEGIN
             AND termCode = Offering.termCode) = 0
             THEN 
                     set errorCode = -1;
-                    rollback;
+                    ROLLBACK;
                     LEAVE proc_label; 
         END IF;
     
@@ -90,7 +90,7 @@ proc_label:BEGIN
             AND section1 = Offering.section) < 0 
             THEN 
                     set errorCode = -2;
-                    rollback;
+                    ROLLBACK;
                     LEAVE proc_label; 
         END IF;
 
@@ -134,7 +134,7 @@ proc_label:BEGIN
             ) 
             THEN 
                     set errorCode = -3;
-                    rollback;
+                    ROLLBACK;
                     LEAVE proc_label; 
         END IF;
     COMMIT;
