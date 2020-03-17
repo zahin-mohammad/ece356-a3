@@ -57,9 +57,7 @@ proc_label:BEGIN
 
         IF (
             SELECT count(*) 
-            FROM Offering
-            JOIN Classroom
-            ON Classroom.roomID = Offering.roomID
+            FROM Offering 
             WHERE courseID = Offering.courseID 
             AND section2 = Offering.section 
             AND termCode = Offering.termCode) = 0
@@ -76,7 +74,9 @@ proc_label:BEGIN
         AND termCode = Offering.termCode 
         AND section1 = Offering.section;
 
-        SELECT * FROM  Offering 
+        SELECT * FROM  Offering
+        JOIN Classroom
+        ON Classroom.roomID = Offering.roomID
         WHERE courseID = Offering.courseID 
         AND termCode = Offering.termCode 
         AND section1 = Offering.section;
