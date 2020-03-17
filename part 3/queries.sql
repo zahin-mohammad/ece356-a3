@@ -18,7 +18,6 @@ group by playerID
 order by totalPay desc
 limit 3;
 
-
 select count(playerID) 
 from Master 
 where birthYear is null 

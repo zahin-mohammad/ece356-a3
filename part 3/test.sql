@@ -7,7 +7,7 @@ SELECT
     max(TIMER_END-TIMER_START) as 'LargestRunTime'
 FROM performance_schema.events_transactions_history;
 
-CALL sys.ps_truncate_all_tables(FALSE);
+/* CALL sys.ps_truncate_all_tables(FALSE);
 source query2x5.sql;
 
 SELECT 
@@ -41,4 +41,4 @@ SELECT
     sum(TIMER_END-TIMER_START)/5 as 'AverageRunTime',
     min(TIMER_END-TIMER_START) as 'SmallestRunTime',
     max(TIMER_END-TIMER_START) as 'LargestRunTime'
-FROM performance_schema.events_transactions_history;
+FROM performance_schema.events_transactions_history; */
