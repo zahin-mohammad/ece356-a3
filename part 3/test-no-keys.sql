@@ -1,4 +1,5 @@
 source lahman2016.sql;
+use `baseball2016`;
 
 -- Remove all foreign keys
 alter table baseball2016.Teams DROP FOREIGN KEY Teams_ibfk_1;                              
@@ -37,4 +38,37 @@ alter table baseball2016.Salaries DROP FOREIGN KEY Salaries_ibfk_1;
 alter table baseball2016.Salaries DROP FOREIGN KEY Salaries_ibfk_2;                        
 alter table baseball2016.SeriesPost DROP FOREIGN KEY SeriesPost_ibfk_1;                    
 alter table baseball2016.SeriesPost DROP FOREIGN KEY SeriesPost_ibfk_2;                    
-alter table baseball2016.TeamsHalf DROP FOREIGN KEY TeamsHalf_ibfk_1; 
+alter table baseball2016.TeamsHalf DROP FOREIGN KEY TeamsHalf_ibfk_1;  
+
+-- Remove all primary keys
+alter table baseball2016.Master DROP PRIMARY KEY;                       
+alter table baseball2016.TeamsFranchises DROP PRIMARY KEY;              
+alter table baseball2016.Schools DROP PRIMARY KEY;                      
+alter table baseball2016.Teams DROP PRIMARY KEY;                        
+alter table baseball2016.Parks DROP PRIMARY KEY;                        
+alter table baseball2016.AllstarFull DROP PRIMARY KEY;                  
+alter table baseball2016.Appearances DROP PRIMARY KEY;                  
+alter table baseball2016.AwardsManagers DROP PRIMARY KEY;               
+alter table baseball2016.AwardsPlayers DROP PRIMARY KEY;                
+alter table baseball2016.AwardsShareManagers DROP PRIMARY KEY;          
+alter table baseball2016.AwardsSharePlayers DROP PRIMARY KEY;           
+alter table baseball2016.Batting DROP PRIMARY KEY;                      
+alter table baseball2016.BattingPost DROP PRIMARY KEY;                  
+alter table baseball2016.CollegePlaying DROP PRIMARY KEY;               
+alter table baseball2016.Fielding DROP PRIMARY KEY;                     
+alter table baseball2016.FieldingOF DROP PRIMARY KEY;                   
+alter table baseball2016.FieldingOFsplit DROP PRIMARY KEY;              
+alter table baseball2016.FieldingPost DROP PRIMARY KEY;                 
+alter table baseball2016.HallOfFame DROP PRIMARY KEY;                   
+alter table baseball2016.HomeGames DROP PRIMARY KEY;                    
+alter table baseball2016.Managers DROP PRIMARY KEY;                     
+alter table baseball2016.ManagersHalf DROP PRIMARY KEY;                 
+alter table baseball2016.Pitching DROP PRIMARY KEY;                     
+alter table baseball2016.PitchingPost DROP PRIMARY KEY;                 
+alter table baseball2016.Salaries DROP PRIMARY KEY;                     
+alter table baseball2016.SeriesPost DROP PRIMARY KEY;                   
+alter table baseball2016.TeamsHalf DROP PRIMARY KEY;
+
+INSERT INTO performance_schema.setup_objects VALUES ('EVENT','baseball2016','%','YES','YES');
+
+source test.sql;
