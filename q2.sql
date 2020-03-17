@@ -14,9 +14,9 @@ BEGIN
     -- if there are no errors, set the error code to 0 and commit the transaction.
     
 
-    DECLARE invalid_params CONDITION FOR '1000';
-    DECLARE section1EnrollmentError CONDITION FOR '2000';
-    DECLARE section2CapacityError CONDITION FOR '3000';
+    DECLARE invalid_params CONDITION FOR 1000;
+    DECLARE section1EnrollmentError CONDITION FOR 2000;
+    DECLARE section2CapacityError CONDITION FOR 3000;
     
     DECLARE EXIT HANDLER FOR invalid_params 
     BEGIN
