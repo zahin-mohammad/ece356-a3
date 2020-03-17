@@ -82,7 +82,7 @@ BEGIN
         AND termCode = Offering.termCode
         AND section2 = Offering.section;
 
-    -   - if the result is that enrollment in sec-tion2 exceeds room capacity, then set the error code to -3.
+        -- if the result is that enrollment in sec-tion2 exceeds room capacity, then set the error code to -3.
         IF (
             SELECT capacity - enrollment
             FROM Offering JOIN Classroom 
