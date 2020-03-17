@@ -85,12 +85,12 @@ BEGIN
 
         -- if the result is that enrollment in sec-tion2 exceeds room capacity, then set the error code to -3.
         IF (
-            SELECT capacity
+            SELECT capacity - enrollment
             FROM Offering JOIN Classroom 
             ON Offering.roomID = Classroom.roomID
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode 
-            AND section2 = Offering.section) < enrollment 
+            AND section2 = Offering.section) < 0 
             THEN SIGNAL section2CapacityError;
         END IF;
     COMMIT;
