@@ -73,6 +73,11 @@ proc_label:BEGIN
         WHERE courseID = Offering.courseID 
         AND termCode = Offering.termCode 
         AND section1 = Offering.section;
+
+        SELECT * FROM  Offering 
+        WHERE courseID = Offering.courseID 
+        AND termCode = Offering.termCode 
+        AND section1 = Offering.section;
         
         -- if the result is a negative enrollment, set the error code to -2
         IF (
