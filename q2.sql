@@ -35,7 +35,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR section2CapacityError
     BEGIN
         SELECT 'section 2 enrollment';
-        set errorCode = -2;
+        set errorCode = -3;
         ROLLBACK;
     END;
 
