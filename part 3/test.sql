@@ -2,9 +2,9 @@ CALL sys.ps_truncate_all_tables(FALSE);
 source query1x5.sql;
 
 SELECT 
-    sum(TIMER_END-TIMER_START)/5 as 'AverageRunTime',
-    min(TIMER_END-TIMER_START) as 'SmallestRunTime',
-    max(TIMER_END-TIMER_START) as 'LargestRunTime'
+    AVG(TIMER_WAIT)/1000000 as 'AverageRunTime',
+    min(TIMER_WAIT) as 'SmallestRunTime',
+    max(TIMER_WAIT) as 'LargestRunTime'
 FROM performance_schema.events_transactions_history;
 
 /* CALL sys.ps_truncate_all_tables(FALSE);
