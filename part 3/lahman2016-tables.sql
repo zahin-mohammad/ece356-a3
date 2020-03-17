@@ -1,6 +1,3 @@
-\W
-/*!40100 DEFAULT CHARACTER SET utf8mb4 */
-
 /*
 
  Source Server         : localhost
@@ -640,4 +637,3 @@ CREATE TABLE `TeamsHalf` (
   PRIMARY KEY (`yearID`,`teamID`,`Half`),
   FOREIGN KEY (`teamID`) REFERENCES Teams(`teamID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
-\w
