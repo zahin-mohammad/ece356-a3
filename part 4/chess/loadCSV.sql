@@ -66,7 +66,7 @@ IGNORE 1 ROWS;
 
 CREATE TABLE Moves(
     game_id VARCHAR (255),
-    move_num VARCHAR(255),
+    move_num int,
     move VARCHAR(255)
 );
 
