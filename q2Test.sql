@@ -1,4 +1,5 @@
 DROP DATABASE IF EXISTS unitest;
+CREATE DATABASE unitest;
 use unitest;
 source createUni.sql;
 
@@ -11,6 +12,7 @@ call tryEnrollment('ECE356', 1, 2, 1191, 0, @errorCode);
 SELECT @errorCode;
 
 DROP DATABASE IF EXISTS unitest;
+CREATE DATABASE unitest;
 use unitest;
 source createUni.sql;
 -- should pass
