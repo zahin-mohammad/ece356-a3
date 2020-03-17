@@ -96,12 +96,21 @@ proc_label:BEGIN
 
         -- if the result is that enrollment in section2 exceeds room capacity, then set the error code to -3.
         IF (
-            SELECT capacity - enrollment
+            SELECT capacity 
             FROM Offering JOIN Classroom 
             ON Offering.roomID = Classroom.roomID
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode 
-            AND section2 = Offering.section) < 0 
+            AND section2 = Offering.section
+            ) < 
+            (
+            SELECT enrollment
+            FROM Offering JOIN Classroom 
+            ON Offering.roomID = Classroom.roomID
+            WHERE courseID = Offering.courseID 
+            AND termCode = Offering.termCode 
+            AND section2 = Offering.section
+            ) 
             THEN 
                     set errorCode = -3;
                     rollback;
