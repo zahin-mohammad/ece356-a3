@@ -13,30 +13,30 @@ proc_label:BEGIN
     -- if there are any errors, rollback the transaction.
     -- if there are no errors, set the error code to 0 and commit the transaction.
     
-    DECLARE invalid_params CONDITION FOR SQLSTATE '02100';
-    DECLARE section1EnrollmentError CONDITION FOR SQLSTATE '02200';
-    DECLARE section2CapacityError CONDITION FOR SQLSTATE '02300';
+    -- DECLARE invalid_params CONDITION FOR SQLSTATE '02100';
+    -- DECLARE section1EnrollmentError CONDITION FOR SQLSTATE '02200';
+    -- DECLARE section2CapacityError CONDITION FOR SQLSTATE '02300';
     
-    DECLARE EXIT HANDLER FOR invalid_params 
-    BEGIN
-        -- SELECT 'Invalid Params';
-        set errorCode = -1;
-        ROLLBACK;
-    END;
+    -- DECLARE EXIT HANDLER FOR invalid_params 
+    -- BEGIN
+    --     -- SELECT 'Invalid Params';
+    --     set errorCode = -1;
+    --     ROLLBACK;
+    -- END;
 
-    DECLARE EXIT HANDLER FOR section1EnrollmentError
-    BEGIN
-        -- SELECT 'section 1 enrollment';
-        set errorCode = -2;
-        ROLLBACK;
-    END;
+    -- DECLARE EXIT HANDLER FOR section1EnrollmentError
+    -- BEGIN
+    --     -- SELECT 'section 1 enrollment';
+    --     set errorCode = -2;
+    --     ROLLBACK;
+    -- END;
 
-    DECLARE EXIT HANDLER FOR section2CapacityError
-    BEGIN
-        -- SELECT 'section 2 enrollment';
-        set errorCode = -3;
-        ROLLBACK;
-    END;
+    -- DECLARE EXIT HANDLER FOR section2CapacityError
+    -- BEGIN
+    --     -- SELECT 'section 2 enrollment';
+    --     set errorCode = -3;
+    --     ROLLBACK;
+    -- END;
 
     set errorCode = 0;
 
