@@ -54,7 +54,7 @@ proc_label:BEGIN
                     set errorCode = -1;
                     rollback;
                     LEAVE proc_label; 
-                END);
+                END;);
         END IF;
 
         IF (
@@ -68,7 +68,7 @@ proc_label:BEGIN
                     set errorCode = -1;
                     rollback;
                     LEAVE proc_label; 
-                END);
+                END;);
         END IF;
     
         -- attempt to reduce the enrollment in section1 by “quantity”; 
@@ -90,7 +90,7 @@ proc_label:BEGIN
                     set errorCode = -2;
                     rollback;
                     LEAVE proc_label; 
-                END);
+                END;);
         END IF;
 
         -- attempt to increase the enrollment in section2 by “quantity”; 
@@ -113,7 +113,7 @@ proc_label:BEGIN
                     set errorCode = -3;
                     rollback;
                     LEAVE proc_label; 
-                END);
+                END;);
         END IF;
     COMMIT;
 
