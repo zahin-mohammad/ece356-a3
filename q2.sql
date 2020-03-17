@@ -9,11 +9,10 @@ CREATE PROCEDURE tryEnrollment(
     IN quantity int,
     OUT errorCode int
 )
-BEGIN
+proc_label:BEGIN
     -- if there are any errors, rollback the transaction.
     -- if there are no errors, set the error code to 0 and commit the transaction.
     
-
     DECLARE invalid_params CONDITION FOR SQLSTATE '02100';
     DECLARE section1EnrollmentError CONDITION FOR SQLSTATE '02200';
     DECLARE section2CapacityError CONDITION FOR SQLSTATE '02300';
@@ -50,7 +49,12 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND section1 = Offering.section 
             AND termCode = Offering.termCode) = 0
-            THEN SIGNAL invalid_params;
+            THEN 
+                (BEGIN 
+                    set errorCode = -1;
+                    rollback;
+                    LEAVE proc_label; 
+                END);
         END IF;
 
         IF (
@@ -59,7 +63,12 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND section2 = Offering.section 
             AND termCode = Offering.termCode) = 0
-            THEN SIGNAL invalid_params;
+            THEN 
+                (BEGIN 
+                    set errorCode = -1;
+                    rollback;
+                    LEAVE proc_label; 
+                END);
         END IF;
     
         -- attempt to reduce the enrollment in section1 by “quantity”; 
@@ -76,7 +85,12 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode
             AND section1 = Offering.section) < 0 
-            THEN SIGNAL section1EnrollmentError;
+            THEN 
+                (BEGIN 
+                    set errorCode = -2;
+                    rollback;
+                    LEAVE proc_label; 
+                END);
         END IF;
 
         -- attempt to increase the enrollment in section2 by “quantity”; 
@@ -94,7 +108,12 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode 
             AND section2 = Offering.section) < 0 
-            THEN SIGNAL section2CapacityError;
+            THEN 
+                (BEGIN 
+                    set errorCode = -3;
+                    rollback;
+                    LEAVE proc_label; 
+                END);
         END IF;
     COMMIT;
 
