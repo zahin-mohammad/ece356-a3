@@ -10,33 +10,6 @@ CREATE PROCEDURE switchSection(
     OUT errorCode int
 )
 proc_label:BEGIN
-    -- if there are any errors, rollback the transaction.
-    -- if there are no errors, set the error code to 0 and commit the transaction.
-    
-    -- DECLARE invalid_params CONDITION FOR SQLSTATE '02100';
-    -- DECLARE section1EnrollmentError CONDITION FOR SQLSTATE '02200';
-    -- DECLARE section2CapacityError CONDITION FOR SQLSTATE '02300';
-    
-    -- DECLARE EXIT HANDLER FOR invalid_params 
-    -- BEGIN
-    --     -- SELECT 'Invalid Params';
-    --     set errorCode = -1;
-    --     ROLLBACK;
-    -- END;
-
-    -- DECLARE EXIT HANDLER FOR section1EnrollmentError
-    -- BEGIN
-    --     -- SELECT 'section 1 enrollment';
-    --     set errorCode = -2;
-    --     ROLLBACK;
-    -- END;
-
-    -- DECLARE EXIT HANDLER FOR section2CapacityError
-    -- BEGIN
-    --     -- SELECT 'section 2 enrollment';
-    --     set errorCode = -3;
-    --     ROLLBACK;
-    -- END;
 
     set errorCode = 0;
 
@@ -73,13 +46,6 @@ proc_label:BEGIN
         WHERE courseID = Offering.courseID 
         AND termCode = Offering.termCode 
         AND section1 = Offering.section;
-
-        -- SELECT * FROM  Offering
-        -- JOIN Classroom
-        -- ON Classroom.roomID = Offering.roomID
-        -- WHERE courseID = Offering.courseID 
-        -- AND termCode = Offering.termCode 
-        -- AND section1 = Offering.section;
         
         -- if the result is a negative enrollment, set the error code to -2
         IF (
@@ -94,26 +60,12 @@ proc_label:BEGIN
                     LEAVE proc_label; 
         END IF;
 
-        -- SELECT * FROM  Offering
-        -- JOIN Classroom
-        -- ON Classroom.roomID = Offering.roomID
-        -- WHERE courseID = Offering.courseID 
-        -- AND termCode = Offering.termCode 
-        -- AND section2 = Offering.section;
-
         -- attempt to increase the enrollment in section2 by “quantity”; 
         UPDATE Offering 
         SET enrollment =  enrollment + quantity 
         WHERE courseID = Offering.courseID 
         AND termCode = Offering.termCode
         AND section2 = Offering.section;
-
-        -- SELECT * FROM  Offering
-        -- JOIN Classroom
-        -- ON Classroom.roomID = Offering.roomID
-        -- WHERE courseID = Offering.courseID 
-        -- AND termCode = Offering.termCode 
-        -- AND section2 = Offering.section;
 
         -- if the result is that enrollment in section2 exceeds room capacity, then set the error code to -3.
         IF (
