@@ -42,20 +42,20 @@ BEGIN
         -- if (courseID,section1,termCode) or (courseID,section2,termCode) do not exist in Offering, 
         -- or quantity is 0 or less or section1 = section2, set the error code to -1.
         IF (
-            SELECT * 
+            SELECT count(*) 
             FROM Offering 
             WHERE courseID = Offering.courseID 
             AND section1 = Offering.section 
-            AND termCode = Offering.termCode) = NULL
+            AND termCode = Offering.termCode) = 0
             THEN SIGNAL invalid_params;
         END IF;
 
         IF (
-            SELECT * 
+            SELECT count(*) 
             FROM Offering 
             WHERE courseID = Offering.courseID 
             AND section2 = Offering.section 
-            AND termCode = Offering.termCode) = NULL
+            AND termCode = Offering.termCode) = 0
             THEN SIGNAL invalid_params;
         END IF;
     
@@ -71,7 +71,8 @@ BEGIN
             SELECT enrollment 
             FROM Offering 
             WHERE courseID = Offering.courseID 
-            AND termCode = Offering.termCode) < 0 
+            AND termCode = Offering.termCode
+            AND section1 = Offering.section) < 0 
             THEN SIGNAL section1EnrollmentError;
         END IF;
 
@@ -84,12 +85,12 @@ BEGIN
 
         -- if the result is that enrollment in sec-tion2 exceeds room capacity, then set the error code to -3.
         IF (
-            SELECT capacity - enrollment
+            SELECT capacity
             FROM Offering JOIN Classroom 
             ON Offering.roomID = Classroom.roomID
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode 
-            AND section2 = Offering.section) < 0 
+            AND section2 = Offering.section) < enrollment 
             THEN SIGNAL section2CapacityError;
         END IF;
     COMMIT;
