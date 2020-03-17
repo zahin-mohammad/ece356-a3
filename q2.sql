@@ -47,7 +47,7 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND section1 = Offering.section 
             AND termCode = Offering.termCode) = NULL
-            THEN SIGNAL SQLSTATE invalid_params;
+            THEN SIGNAL SQLSTATE 'invalid_params';
         END IF;
 
         IF (
@@ -56,7 +56,7 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND section2 = Offering.section 
             AND termCode = Offering.termCode) = NULL
-            THEN SIGNAL SQLSTATE invalid_params;
+            THEN SIGNAL SQLSTATE 'invalid_params';
         END IF;
     
         -- attempt to reduce the enrollment in section1 by “quantity”; 
