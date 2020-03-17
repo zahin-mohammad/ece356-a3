@@ -50,11 +50,9 @@ proc_label:BEGIN
             AND section1 = Offering.section 
             AND termCode = Offering.termCode) = 0
             THEN 
-                ( 
                     set errorCode = -1;
                     rollback;
                     LEAVE proc_label; 
-                );
         END IF;
 
         IF (
@@ -64,11 +62,9 @@ proc_label:BEGIN
             AND section2 = Offering.section 
             AND termCode = Offering.termCode) = 0
             THEN 
-                ( 
                     set errorCode = -1;
                     rollback;
                     LEAVE proc_label; 
-                );
         END IF;
     
         -- attempt to reduce the enrollment in section1 by “quantity”; 
@@ -86,11 +82,9 @@ proc_label:BEGIN
             AND termCode = Offering.termCode
             AND section1 = Offering.section) < 0 
             THEN 
-                ( 
                     set errorCode = -2;
                     rollback;
                     LEAVE proc_label; 
-                );
         END IF;
 
         -- attempt to increase the enrollment in section2 by “quantity”; 
@@ -109,11 +103,9 @@ proc_label:BEGIN
             AND termCode = Offering.termCode 
             AND section2 = Offering.section) < 0 
             THEN 
-                ( 
                     set errorCode = -3;
                     rollback;
                     LEAVE proc_label; 
-                );
         END IF;
     COMMIT;
 
