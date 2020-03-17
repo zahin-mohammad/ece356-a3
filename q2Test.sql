@@ -4,7 +4,7 @@ source q2.sql;
 
 -- Should pass
 START TRANSACTION;
-call tryEnrollment('ECE356', 1, 2, 1191, 4, @errorCode);
+call tryEnrollment('ECE356', 1, 2, 1191, 0, @errorCode);
 SELECT @errorCode;
 ROLLBACK;
 COMMIT;
