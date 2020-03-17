@@ -1,20 +1,21 @@
-use uni;
+DROP DATABASE IF EXISTS unitest;
+use unitest;
+source createUni;
+
 set autocommit=0;
+
 source q2.sql;
 
 -- Should pass
-START TRANSACTION;
 call tryEnrollment('ECE356', 1, 2, 1191, 0, @errorCode);
 SELECT @errorCode;
-ROLLBACK;
-COMMIT;
 
+DROP DATABASE IF EXISTS unitest;
+use unitest;
+source createUni;
 -- should pass
-START TRANSACTION;
 call tryEnrollment('ECE356', 1, 2, 1191, 14, @errorCode);
 SELECT @errorCode;
-ROLLBACK;
-COMMIT;
 
 -- -- should fail
 -- call tryEnrollment('ECE356', 1, 2, 1191, 20, @errorCode);
