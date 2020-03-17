@@ -101,6 +101,13 @@ proc_label:BEGIN
         AND termCode = Offering.termCode
         AND section2 = Offering.section;
 
+                SELECT * FROM  Offering
+        JOIN Classroom
+        ON Classroom.roomID = Offering.roomID
+        WHERE courseID = Offering.courseID 
+        AND termCode = Offering.termCode 
+        AND section2 = Offering.section;
+
         -- if the result is that enrollment in section2 exceeds room capacity, then set the error code to -3.
         IF (
             SELECT capacity 
