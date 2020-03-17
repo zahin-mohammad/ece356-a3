@@ -72,7 +72,7 @@ BEGIN
             FROM Offering 
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode) < 0 
-            THEN SIGNAL SQLSTATE section1EnrollmentError;
+            THEN SIGNAL section1EnrollmentError;
         END IF;
 
         -- attempt to increase the enrollment in section2 by “quantity”; 
@@ -90,7 +90,7 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND termCode = Offering.termCode 
             AND section2 = Offering.section) < 0 
-            THEN SIGNAL SQLSTATE section2CapacityError;
+            THEN SIGNAL section2CapacityError;
         END IF;
     COMMIT;
 
