@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS unitest;
 use unitest;
-source createUni;
+source createUni.sql;
 
 set autocommit=0;
 
@@ -12,7 +12,7 @@ SELECT @errorCode;
 
 DROP DATABASE IF EXISTS unitest;
 use unitest;
-source createUni;
+source createUni.sql;
 -- should pass
 call tryEnrollment('ECE356', 1, 2, 1191, 14, @errorCode);
 SELECT @errorCode;
