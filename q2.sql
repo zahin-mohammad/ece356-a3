@@ -14,9 +14,9 @@ BEGIN
     -- if there are no errors, set the error code to 0 and commit the transaction.
     
 
-    DECLARE invalid_params CONDITION FOR 1000;
-    DECLARE section1EnrollmentError CONDITION FOR 2000;
-    DECLARE section2CapacityError CONDITION FOR 3000;
+    DECLARE invalid_params CONDITION FOR SQLSTATE '1000';
+    DECLARE section1EnrollmentError CONDITION FOR SQLSTATE '2000';
+    DECLARE section2CapacityError CONDITION FOR SQLSTATE '3000';
     
     DECLARE EXIT HANDLER FOR invalid_params 
     BEGIN
@@ -47,7 +47,7 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND section1 = Offering.section 
             AND termCode = Offering.termCode) = NULL
-            THEN SIGNAL SQLSTATE 'invalid_params';
+            THEN SIGNAL SQLSTATE invalid_params;
         END IF;
 
         IF (
@@ -56,7 +56,7 @@ BEGIN
             WHERE courseID = Offering.courseID 
             AND section2 = Offering.section 
             AND termCode = Offering.termCode) = NULL
-            THEN SIGNAL SQLSTATE 'invalid_params';
+            THEN SIGNAL SQLSTATE invalid_params;
         END IF;
     
         -- attempt to reduce the enrollment in section1 by “quantity”; 
