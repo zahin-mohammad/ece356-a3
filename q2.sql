@@ -20,18 +20,21 @@ BEGIN
     
     DECLARE EXIT HANDLER FOR invalid_params 
     BEGIN
+        SELECT 'Invalid Params';
         set errorCode = -1;
         ROLLBACK;
     END;
 
     DECLARE EXIT HANDLER FOR section1EnrollmentError
     BEGIN
+        SELECT 'section 1 enrollment';
         set errorCode = -2;
         ROLLBACK;
     END;
 
     DECLARE EXIT HANDLER FOR section2CapacityError
     BEGIN
+        SELECT 'section 2 enrollment';
         set errorCode = -2;
         ROLLBACK;
     END;
